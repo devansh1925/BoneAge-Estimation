@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Age Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: #444;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #222;
+        }
+    </style>
+
+    <script>
+    function showLoader() {
+        // Disable the button
+        const button = document.querySelector('button');
+        button.disabled = true;
+        button.textContent = "Predicting...";
+
+        // Hide previous result
+        const resultDiv = document.getElementById('prediction');
+            if (resultDiv) {
+                resultDiv.style.display = 'none';
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <h2>Upload an X-ray Image</h2>
+        <!-- Modify the form -->
+        <form method="post" enctype="multipart/form-data" onsubmit="showLoader()">
+
+            <input type="file" name="image" required><br><br>
+            <label>
+                <input type="checkbox" name="is_female">
+                Female
+            </label><br><br>
+
+            <button type="submit">Predict Age</button>
+        </form>
+        <div id="prediction">
+            {% if age_years is not none %}
+                {% if age_years == -1 %}
+                    <h3 style="color: red;">Cannot predict age of the given image.</h3>
+                {% else %}
+                    <h3>Predicted Age:</h3>
+                    <p style="color: green;">{{ age_years }} years</p>
+                    <p style="color: green;">{{ age_months }} months</p>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div id="loader" style="display:none; margin-top: 20px; font-size: 16px; color: #555;">
+    ⏳  Processing... Please wait.
+        </div>
+    </div>
+</body>
+</html>
